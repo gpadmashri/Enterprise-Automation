@@ -1,13 +1,17 @@
-import { Page, expect } from "@playwrigth/test";
+import { Page, expect } from "@playwright/test";
 
-export default class HomePage{
+export default class HomePage {
 
-    private readonly BookStoreLocator = "Book Store Application"
+    private readonly homepageText = "Experience the difference";
+
+    constructor(private page: Page) {
+
+    }
+
+    async expectHomePageTextToBeVisible() {
+        await expect(this.page.getByText(this.homepageText)).toBeVisible({ timeout: 10000 });
+    }
 
 
-constructo(private page: Page){
-
-
-}
 
 }

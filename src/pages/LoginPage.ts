@@ -4,9 +4,9 @@ import { error } from "console";
 
 export default class LoginPage{
 
-    private readonly usernameInput = "";
-    private readonly pasaswordInput =" ";
-    private readonly loginButton = "";
+    private readonly usernameInputSelector = "username";
+    private readonly pasaswordInputSelector ="password";
+    private readonly loginButtonSelector = "Log In";
 
     constructor (private page:Page)
     {
@@ -20,26 +20,25 @@ export default class LoginPage{
 
     async fillUserName(username:string)
     {
-        await this.page.locator(this.usernameInput).fill(username);
+        await this.page.locator('input[name=' + this.usernameInputSelector +']').fill(username);
     }
 
     async fillPassword(password:string)
     {
-        await this.page.locator(this.pasaswordInput).fill(password);
+        await this.page.locator('input[name=' + this.pasaswordInputSelector +']').fill(password);
     }
 
     async clickLoginButton()
     {
         await this.page
-        .locator(this.loginButton)
+        .getByRole('button', {name: this.loginButtonSelector })        
         .click()
         .catch((error) =>
             console.error("Error clicking on Login button:", error)
     );
 
-    const homepage = new HomePage(this.page);
-    return homepage;
+    const homePage = new HomePage(this.page);
+    return homePage;
      
     }
-
 }
