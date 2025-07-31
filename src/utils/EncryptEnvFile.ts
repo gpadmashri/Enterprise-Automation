@@ -2,8 +2,6 @@ let CryptoJSUtil = require("Crypto-js");
 let fs = require("fs");
 let path = require("path");
 
-const SALT = process.env.SALT + "dafaultSalt";
-
 const currentDir = __dirname;
 
 //Go one level above back to source
@@ -19,7 +17,8 @@ console.log(envFilePath);
 
 export function encryptEnvFile() {
     //Read .env file
-    const envFileContent = fs.readFileSync(envFilePath, "utf-8");
+    const SALT = process.env.SALT || "dafaultSalt";
+    const envFileContent = fs.readFileSync(envFilePath, "utf8");
     const envLines = envFileContent.split("\n");
 
 
@@ -36,13 +35,14 @@ export function encryptEnvFile() {
     });
     //Join the line and write back to .env file
     const updatedEnvContent = encryptedLines.join("\n");
-    fs.writeFileSync(envFilePath,updatedEnvContent,"utf-8");
+    fs.writeFileSync(envFilePath,updatedEnvContent,"utf8");
     console.log("Encryption completed. Updated .env file")
 }
 export function decryptEnvFile()
 {
+    const SALT = process.env.SALT || "dafaultSalt";
     //Read the .env file
-    const envFileContent = fs.readFileSync(envFilePath, "utf-8");
+    const envFileContent = fs.readFileSync(envFilePath, "utf8");
     const envLines = envFileContent.split("\n");
 
     //Decrypt values and update the array
@@ -61,7 +61,7 @@ export function decryptEnvFile()
     //Join the lines and write back to .env file
 
     const updatedEnvContent = decryptedLines.join("\n");
-    fs.writeFileSync(envFilePath,updatedEnvContent,"utf-8");
+    fs.writeFileSync(envFilePath,updatedEnvContent,"utf8");
 
     console.log("Decryption complete. Updated .env file");
 }
